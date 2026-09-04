@@ -27,5 +27,3 @@ patches:
                 value: "1.0"
               - name: OTEL_SERVICE_NAME
                 value: "contabilidade-empenhos"
-              - name: LATENCY_MS
-                value: "3000"
