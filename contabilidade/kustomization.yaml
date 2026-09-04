@@ -24,7 +24,7 @@ patches:
               - name: PORT
                 value: "3000"
               - name: ERROR_RATE
-                value: "0.0"
+                value: "1.0"
               - name: OTEL_SERVICE_NAME
                 value: "contabilidade-empenhos"
               - name: LATENCY_MS
