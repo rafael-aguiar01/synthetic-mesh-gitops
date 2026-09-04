@@ -1,12 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: financas
+namespace: contabilidade
 
 resources:
   - ../base
-  - ingress.yaml
 
-namePrefix: tributos-iptu-
+namePrefix: contabilidade-empenhos-
 
 patches:
   - target:
@@ -16,10 +15,8 @@ patches:
         path: /spec/template/spec/containers/0/env
         value:
           - name: SERVICE_NAME
-            value: "tributos-iptu"
+            value: "contabilidade-empenhos"
           - name: PORT
             value: "3000"
           - name: ERROR_RATE
             value: "0.0"
-          - name: TARGET_UPSTREAMS
-            value: "http://contabilidade-empenhos-dummy-service.contabilidade.svc"
