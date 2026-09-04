@@ -8,17 +8,22 @@ resources:
 namePrefix: contabilidade-empenhos-
 
 patches:
-  - target:
+  - patch: |-
+      apiVersion: apps/v1
       kind: Deployment
-    patch: |-
-      - op: add
-        path: /spec/template/spec/containers/0/env
-        value:
-          - name: SERVICE_NAME
-            value: "contabilidade-empenhos"
-          - name: PORT
-            value: "3000"
-          - name: ERROR_RATE
-            value: "0.0"
-          - name: OTEL_SERVICE_NAME
-            value: "tributos-iptu" # No outro arquivo, use "contabilidade-empenhos"
+      metadata:
+        name: dummy-service
+      spec:
+        template:
+          spec:
+            containers:
+            - name: app
+              env:
+              - name: SERVICE_NAME
+                value: "contabilidade-empenhos"
+              - name: PORT
+                value: "3000"
+              - name: ERROR_RATE
+                value: "0.0"
+              - name: OTEL_SERVICE_NAME
+                value: "contabilidade-empenhos"
