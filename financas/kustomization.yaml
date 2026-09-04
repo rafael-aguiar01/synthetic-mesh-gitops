@@ -23,3 +23,5 @@ patches:
             value: "0.0"
           - name: TARGET_UPSTREAMS
             value: "http://contabilidade-empenhos-dummy-service.contabilidade.svc"
+          - name: OTEL_SERVICE_NAME
+            value: "tributos-iptu" # No outro arquivo, use "contabilidade-empenhos"

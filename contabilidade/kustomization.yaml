@@ -20,3 +20,5 @@ patches:
             value: "3000"
           - name: ERROR_RATE
             value: "0.0"
+          - name: OTEL_SERVICE_NAME
+            value: "tributos-iptu" # No outro arquivo, use "contabilidade-empenhos"
