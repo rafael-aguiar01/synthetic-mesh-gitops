@@ -4,11 +4,10 @@ namespace: financas
 
 resources:
   - ../base
+  - ingress.yaml
 
-# Renomeia os recursos genéricos para o nome real do microsserviço
 namePrefix: tributos-iptu-
 
-# Injeta as Variáveis de Ambiente no nosso Node.js
 patches:
   - target:
       kind: Deployment
