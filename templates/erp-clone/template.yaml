@@ -92,12 +92,9 @@ spec:
         # /argocd/apps/gsp
         #
         update: true
-
-
     # =========================================================
     # DISPARA AUTO MERGE DO PR
     # =========================================================
-
     - id: merge-pr
       name: Fazendo merge automático
       action: github:actions:dispatch
