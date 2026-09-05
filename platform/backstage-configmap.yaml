@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: backstage-config
-  namespace: observabilidade
+  namespace: plataform
 data:
   app-config.yaml: |
     app:

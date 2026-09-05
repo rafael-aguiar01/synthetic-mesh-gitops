@@ -4,6 +4,3 @@ namespace: observabilidade
 
 resources:
   - namespace.yaml
-  - backstage-configmap.yaml
-  - backstage-deployment.yaml
-  - backstage-ingress.yaml
