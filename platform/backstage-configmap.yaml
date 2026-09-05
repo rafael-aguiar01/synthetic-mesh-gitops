@@ -48,6 +48,11 @@ data:
                 - resolver: usernameMatchingUserEntityName
                   dangerouslyAllowSignInWithoutUserInCatalog: true
 
+    integrations:
+      github:
+        - host: github.com
+          token: ${GITHUB_TOKEN}
+
     catalog:
       rules:
         - allow:
@@ -77,5 +82,8 @@ data:
         # SYSTEM
         - type: url
           target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/system.yaml
+        
+        - type: url
+          target: https://raw.githubusercontent.com/rafael-aguiar01/synthetic-mesh-gitops/main/templates/erp-module/template.yaml
   app-config.production.yaml: |
     {}

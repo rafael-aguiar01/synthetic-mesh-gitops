@@ -1,0 +1,52 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: erp-module-template
+  title: Novo Módulo do Sistema Integrado
+  description: Cria um novo microsserviço padronizado (ex. planejamento)
+  tags: [nodejs, backend, erp]
+spec:
+  owner: squad-arquitetura
+  type: service
+  parameters:
+    - title: Dados do Módulo
+      required: [name, description, owner]
+      properties:
+        name:
+          title: Nome do Serviço (ex. planejamento-orcamentos)
+          type: string
+        description:
+          title: Descrição
+          type: string
+        owner:
+          title: Squad Responsável
+          type: string
+          enum:
+            - squad-financas
+            - squad-contabilidade
+            - squad-planejamento
+  steps:
+    - id: fetch-base
+      name: Gerando o esqueleto do serviço
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          description: ${{ parameters.description }}
+          owner: ${{ parameters.owner }}
+    
+    - id: publish
+      name: Publicando no GitHub
+      action: publish:github
+      input:
+        allowedHosts: ['github.com']
+        description: ${{ parameters.description }}
+        repoUrl: github.com?repo=${{ parameters.name }}&owner=rafael-aguiar01
+        
+    - id: register
+      name: Registrando no Catálogo
+      action: catalog:register
+      input:
+        repoContentsUrl: ${{ steps['publish'].output.repoContentsUrl }}
+        catalogInfoPath: '/catalog-info.yaml'

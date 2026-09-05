@@ -1,0 +1,15 @@
+{
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/backstage/backstage/master/packages/catalog-model/src/schema/Entity.json": [
+      "catalog-info.yaml",
+      "system.yaml"
+    ],
+    "https://raw.githubusercontent.com/backstage/backstage/master/packages/catalog-model/src/schema/Template.v1beta3.json": [
+      "template.yaml"
+    ]
+  },
+  "yaml.customTags": [
+    "!include scalar"
+  ],
+  "kubernetes.vs-kubernetes.schema-validation": "warning"
+}

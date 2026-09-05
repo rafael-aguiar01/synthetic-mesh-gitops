@@ -76,6 +76,12 @@ spec:
                   name: backstage-secret
                   key: github-client-secret
 
+            - name: GITHUB_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-secret
+                  key: GITHUB_TOKEN
+
             - name: POSTGRES_HOST
               value: postgres
 
