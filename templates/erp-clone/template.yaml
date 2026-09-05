@@ -26,7 +26,7 @@ spec:
           
     - id: pr-gitops
       name: Enviando para o ArgoCD (GitOps)
-      action: publish:github:pull-request
+      action: github:repo:push
       input:
         repoUrl: github.com?repo=synthetic-mesh-gitops&owner=rafael-aguiar01
         branchName: deploy-${{ parameters.name }}
