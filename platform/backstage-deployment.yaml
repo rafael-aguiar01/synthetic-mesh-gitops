@@ -77,7 +77,16 @@ spec:
 
             - name: APP_CONFIG_backend_database_connection_database
               value: backstage
-
+            - name: AUTH_GITHUB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-secret
+                  key: github-client-id
+            - name: AUTH_GITHUB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-secret
+                  key: github-client-secret
           volumeMounts:
             - name: app-config
               mountPath: /app/app-config.yaml

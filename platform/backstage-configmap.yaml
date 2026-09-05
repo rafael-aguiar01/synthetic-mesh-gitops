@@ -16,7 +16,13 @@ data:
       listen:
         port: 7007
         host: 0.0.0.0
-
+    auth:
+      environment: development
+      providers:
+        github:
+          development:
+            clientId: ${AUTH_GITHUB_CLIENT_ID}
+            clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
       database:
         client: pg
         connection:
