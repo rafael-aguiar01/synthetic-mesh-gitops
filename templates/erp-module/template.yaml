@@ -40,9 +40,8 @@ spec:
       name: Publicando no GitHub
       action: publish:github
       input:
-        allowedHosts: ['github.com']
-        description: ${{ parameters.description }}
         repoUrl: github.com?repo=${{ parameters.name }}&owner=rafael-aguiar01
+        description: ${{ parameters.description }}       
         
     - id: register
       name: Registrando no Catálogo
