@@ -25,11 +25,10 @@ spec:
         values:
           name: ${{ parameters.name }}
           
-    - id: pr-gitops
-      name: Enviando para o ArgoCD (GitOps)
+    - id: push-gitops
+      name: Enviando direto para o GitOps
       action: github:repo:push
       input:
         repoUrl: github.com?repo=synthetic-mesh-gitops&owner=rafael-aguiar01
-        branchName: deploy-${{ parameters.name }}
-        title: "deploy: adiciona modulo ${{ parameters.name }}"
-        description: "Manifestos K8s gerados via Backstage"
+        defaultBranch: main
+        gitCommitMessage: "deploy: adiciona modulo ${{ parameters.name }}"
