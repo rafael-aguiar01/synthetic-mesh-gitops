@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gabinete
+  namespace: platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gabinete
+  template:
+    metadata:
+      labels:
+        app: gabinete
+    spec:
+      containers:
+        - name: app
+          image: node:18-alpine
+          command: ["node", "/app/index.js"]
+          ports:
+            - containerPort: 7007
+          volumeMounts:
+            - name: code-volume
+              mountPath: /app
+      volumes:
+        - name: code-volume
+          configMap:
+            name: gabinete-code

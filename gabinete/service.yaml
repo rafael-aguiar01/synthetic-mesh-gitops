@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gabinete
+  namespace: platform
+spec:
+  selector:
+    app: gabinete
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 7007
