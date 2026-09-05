@@ -26,11 +26,18 @@ spec:
           env:
             - name: NODE_ENV
               value: production
-            # Força o Knex a usar SQLite apontando para um arquivo no disco do container
-            - name: KNEX_CLIENT
-              value: sqlite3
-            - name: KNEX_CONNECTION
-              value: ":memory:"
+            - name: POSTGRES_CLIENT
+              value: pg
+            - name: POSTGRES_HOST
+              value: postgres
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_USER
+              value: backstage
+            - name: POSTGRES_PASSWORD
+              value: backstage123
+            - name: POSTGRES_DB
+              value: backstage
           volumeMounts:
             - name: app-config
               mountPath: /app/app-config.yaml
