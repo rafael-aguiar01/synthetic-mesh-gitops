@@ -12,9 +12,15 @@ data:
       baseUrl: http://backstage.localhost
       listen:
         port: 7007
+        host: 0.0.0.0
       database:
-        client: sqlite3
-        connection: ':memory:'
+        client: pg
+        connection:
+          host: postgres
+          port: 5432
+          user: backstage
+          password: backstage123
+          database: backstage
     catalog:
       locations:
         - type: url

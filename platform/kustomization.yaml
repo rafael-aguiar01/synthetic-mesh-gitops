@@ -4,6 +4,7 @@ namespace: platform
 
 resources:
   - namespace.yaml
+  - postgres.yaml
   - backstage-configmap.yaml
   - backstage-deployment.yaml
   - backstage-ingress.yaml
