@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: tributos-iptu
+  description: Microsserviço de arrecadação e cálculo de IPTU
+  tags:
+    - nodejs
+    - kubernetes
+spec:
+  type: service
+  lifecycle: production
+  owner: squad-financas
+  system: erp-municipal
+  # Aqui criamos o Grafo de Dependência no Backstage
+  dependsOn:
+    - component:contabilidade-empenhos

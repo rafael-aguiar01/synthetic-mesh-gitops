@@ -1,0 +1,23 @@
+apiVersion: backstage.io/v1alpha1
+kind: System
+metadata:
+  name: erp-municipal
+  description: Sistema Integrado de Gestão Pública
+spec:
+  owner: prefeitura-engineering
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: squad-financas
+spec:
+  type: team
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: squad-contabilidade
+spec:
+  type: team
+  children: []
