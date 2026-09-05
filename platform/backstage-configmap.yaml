@@ -48,15 +48,31 @@ data:
                 - resolver: usernameMatchingUserEntityName
 
     catalog:
+      rules:
+        - allow:
+            - Component
+            - System
+            - API
+            - Resource
+            - Location
+            - Domain
+
       locations:
-        - type: url
-          target: https://raw.githubusercontent.com/rafael-aguiar01/synthetic-mesh-gitops/main/users.yaml
-        
-        - type: url
-          target: https://raw.githubusercontent.com/rafael-aguiar01/synthetic-mesh-gitops/main/contabilidade/catalog-info.yaml
 
+        # USUÁRIOS
         - type: url
-          target: https://raw.githubusercontent.com/rafael-aguiar01/synthetic-mesh-gitops/main/financas/catalog-info.yaml
+          target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/users.yaml
+          rules:
+            - allow: [User, Group]
 
+        # CONTABILIDADE
         - type: url
-          target: https://raw.githubusercontent.com/rafael-aguiar01/synthetic-mesh-gitops/main/system.yaml
+          target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/contabilidade/catalog-info.yaml
+
+        # FINANÇAS
+        - type: url
+          target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/financas/catalog-info.yaml
+
+        # SYSTEM
+        - type: url
+          target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/system.yaml
