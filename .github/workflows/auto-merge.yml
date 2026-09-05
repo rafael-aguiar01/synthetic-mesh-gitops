@@ -1,0 +1,27 @@
+name: Auto Merge Backstage
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Número do Pull Request"
+        required: true
+        type: string
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Merge PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr merge "${{ inputs.pr_number }}" \
+            --repo "${{ github.repository }}" \
+            --merge \
+            --delete-branch

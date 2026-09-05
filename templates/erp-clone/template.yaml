@@ -25,13 +25,24 @@ spec:
         values:
           name: ${{ parameters.name }}
           
-    - id: push-gitops
-      name: Publicando direto no GitOps
-      action: github:contents:push
+    - id: pr-gitops
+      name: Criando PR no GitOps
+      action: publish:github:pull-request
       input:
-        owner: rafael-aguiar01
-        repo: synthetic-mesh-gitops
-        branch: main
+        repoUrl: github.com?repo=synthetic-mesh-gitops&owner=rafael-aguiar01
+        branchName: deploy-${{ parameters.name }}
+        targetBranchName: main
+        title: "deploy: adiciona modulo ${{ parameters.name }}"
+        description: "Manifestos K8s gerados via Backstage"
         sourcePath: ${{ parameters.name }}
         targetPath: ${{ parameters.name }}
-        message: "deploy: adiciona modulo ${{ parameters.name }}"
+
+    - id: merge-pr
+      name: Fazendo merge automático
+      action: github:actions:dispatch
+      input:
+        repoUrl: github.com?repo=synthetic-mesh-gitops&owner=rafael-aguiar01
+        workflowId: auto-merge.yml
+        branchOrTagName: main
+        workflowInputs:
+          pr_number: "${{ steps['pr-gitops'].output.pullRequestNumber }}"
