@@ -21,6 +21,7 @@ spec:
       action: fetch:template
       input:
         url: ./skeleton
+        targetPath: ${{ parameters.name }}
         values:
           name: ${{ parameters.name }}
           
