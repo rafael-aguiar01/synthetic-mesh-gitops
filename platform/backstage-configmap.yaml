@@ -7,11 +7,13 @@ metadata:
 data:
   app-config.yaml: |
     app:
-      title: Portal do Desenvolvedor - ERP Municipal
+      title: Portal do Desenvolvedor - Sistemas Integrados
       baseUrl: http://backstage.localhost
 
     backend:
       baseUrl: http://backstage.localhost
+      cors:
+        origin: http://backstage.localhost
 
       listen:
         port: 7007
