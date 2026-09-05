@@ -62,6 +62,7 @@ data:
             - Resource
             - Location
             - Domain
+            - Template
 
       locations:
 
@@ -84,6 +85,6 @@ data:
           target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/system.yaml
         
         - type: url
-          target: https://raw.githubusercontent.com/rafael-aguiar01/synthetic-mesh-gitops/main/templates/erp-module/template.yaml
+          target: https://githubusercontent.com/rafael-aguiar01/synthetic-mesh-gitops/main/templates/erp-module/template.yaml
   app-config.production.yaml: |
     {}
