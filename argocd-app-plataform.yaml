@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: modulo-observabilidade
+  name: modulo-platform
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: 'https://github.com/rafael-aguiar01/synthetic-mesh-gitops.git'
     targetRevision: HEAD
-    path: observabilidade
+    path: platform
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: observabilidade
+    namespace: platform
   syncPolicy:
     automated:
       prune: true

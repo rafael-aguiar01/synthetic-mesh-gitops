@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: backstage-ingress
-  namespace: plataform
+  namespace: platform
 spec:
   rules:
     - host: backstage.localhost
