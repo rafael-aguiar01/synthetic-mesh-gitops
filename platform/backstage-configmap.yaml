@@ -20,11 +20,15 @@ data:
         host: 0.0.0.0
     auth:
       environment: development
+      origin: http://backstage.localhost
       providers:
         github:
           development:
             clientId: ${AUTH_GITHUB_CLIENT_ID}
             clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+            signIn:
+              resolvers:
+                - resolver: usernameMatchingUserEntityName
       database:
         client: pg
         connection:
