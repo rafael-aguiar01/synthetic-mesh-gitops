@@ -13,6 +13,10 @@ spec:
       labels:
         app: backstage
     spec:
+      initContainers:
+        - name: wait-for-postgres
+          image: postgres:15-alpine
+          command: ['sh', '-c', 'until pg_isready -h postgres -p 5432 -U backstage; do echo waiting for database; sleep 2; done']
       containers:
         - name: backstage
           image: mesh-registry:5000/backstage-erp:latest
