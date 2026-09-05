@@ -26,9 +26,12 @@ spec:
           name: ${{ parameters.name }}
           
     - id: push-gitops
-      name: Enviando direto para o GitOps
-      action: github:repo:push
+      name: Publicando direto no GitOps
+      action: github:contents:push
       input:
-        repoUrl: github.com?repo=synthetic-mesh-gitops&owner=rafael-aguiar01
-        defaultBranch: main
-        gitCommitMessage: "deploy: adiciona modulo ${{ parameters.name }}"
+        owner: rafael-aguiar01
+        repo: synthetic-mesh-gitops
+        branch: main
+        sourcePath: ${{ parameters.name }}
+        targetPath: ${{ parameters.name }}
+        message: "deploy: adiciona modulo ${{ parameters.name }}"
