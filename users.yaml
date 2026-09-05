@@ -1,0 +1,9 @@
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: rafael-aguiar01
+  description: Rafael Aguiar
+spec:
+  profile:
+    displayName: Rafael Aguiar
+  memberOf: []
