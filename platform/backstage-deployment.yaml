@@ -19,6 +19,13 @@ spec:
           imagePullPolicy: Always
           ports:
             - containerPort: 7007
+          env:
+            - name: NODE_ENV
+              value: production
+            - name: BACKSTAGE_DATABASE_CLIENT
+              value: sqlite3
+            - name: BACKSTAGE_DATABASE_CONNECTION
+              value: ':memory:'
           volumeMounts:
             - name: app-config
               mountPath: /app/app-config.yaml
