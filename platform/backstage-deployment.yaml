@@ -3,58 +3,103 @@ kind: Deployment
 metadata:
   name: backstage
   namespace: platform
+
 spec:
   replicas: 1
+
   selector:
     matchLabels:
       app: backstage
+
   template:
     metadata:
       labels:
         app: backstage
+
     spec:
+      enableServiceLinks: false
+
       initContainers:
         - name: wait-for-postgres
           image: postgres:15-alpine
-          command: ['sh', '-c', 'until pg_isready -h postgres -p 5432 -U backstage; do echo waiting for database; sleep 2; done']
+          command:
+            - sh
+            - -c
+            - |
+              until pg_isready -h postgres -p 5432 -U backstage; do
+                echo "waiting for database"
+                sleep 2
+              done
+
       containers:
         - name: backstage
+
           image: mesh-registry:5000/backstage-erp:latest
           imagePullPolicy: Always
+
           ports:
             - containerPort: 7007
+
           env:
             - name: NODE_ENV
               value: production
-            - name: POSTGRES_CLIENT
-              value: pg
+
             - name: POSTGRES_HOST
               value: postgres
+
             - name: POSTGRES_PORT
               value: "5432"
+
             - name: POSTGRES_USER
               value: backstage
+
             - name: POSTGRES_PASSWORD
               value: backstage123
+
             - name: POSTGRES_DB
               value: backstage
+
+            # Força a configuração efetiva do Backstage
+            - name: APP_CONFIG_backend_database_client
+              value: pg
+
+            - name: APP_CONFIG_backend_database_connection_host
+              value: postgres
+
+            - name: APP_CONFIG_backend_database_connection_port
+              value: "5432"
+
+            - name: APP_CONFIG_backend_database_connection_user
+              value: backstage
+
+            - name: APP_CONFIG_backend_database_connection_password
+              value: backstage123
+
+            - name: APP_CONFIG_backend_database_connection_database
+              value: backstage
+
           volumeMounts:
             - name: app-config
               mountPath: /app/app-config.yaml
               subPath: app-config.yaml
+
       volumes:
         - name: app-config
           configMap:
             name: backstage-config
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
   name: backstage
-  namespace: observabilidade
+  namespace: platform
+
 spec:
   selector:
     app: backstage
+
   ports:
     - port: 80
       targetPort: 7007
