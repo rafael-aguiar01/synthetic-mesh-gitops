@@ -46,6 +46,7 @@ data:
             signIn:
               resolvers:
                 - resolver: usernameMatchingUserEntityName
+                  dangerouslyAllowSignInWithoutUserInCatalog: true
 
     catalog:
       rules:
