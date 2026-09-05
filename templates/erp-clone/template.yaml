@@ -45,4 +45,4 @@ spec:
         workflowId: auto-merge.yml
         branchOrTagName: main
         workflowInputs:
-          pr_number: "${{ steps['pr-gitops'].output.pullRequestNumber }}"
+          pr_number: ${{ steps['pr-gitops'].output.pullRequestNumber | string }}
