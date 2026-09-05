@@ -1,86 +1,111 @@
 apiVersion: scaffolder.backstage.io/v1beta3
 kind: Template
+
 metadata:
   name: erp-clone-deployer
   title: Clone de Módulo ERP (Deploy via ArgoCD)
-  description: Gera o código e K8s manifests e envia ao GitOps
-  tags: [nodejs, argocd]
+  description: Gera manifests Kubernetes, Application ArgoCD e envia ao GitOps
+  tags:
+    - nodejs
+    - argocd
+    - kubernetes
+    - gitops
+
 spec:
   owner: squad-arquitetura
   type: service
+
   parameters:
     - title: Dados do Serviço
-      required: [name]
+      required:
+        - name
+
       properties:
         name:
-          title: Nome do Serviço (ex. contabilidade)
+          title: Nome do Serviço
+          description: 'Exemplo: contabilidade, saude, portaldocidadao'
           type: string
+          pattern: '^[a-z0-9-]+$'
+
   steps:
-steps:
 
-  # =========================================================
-  # GERA A APLICAÇÃO
-  # =========================================================
+    # =========================================================
+    # GERA OS MANIFESTOS DA APLICAÇÃO
+    # =========================================================
 
-  - id: fetch-app
-    name: Gerando K8s Manifests e Código
-    action: fetch:template
-    input:
-      url: ./skeleton/app
+    - id: fetch-app
+      name: Gerando K8s Manifests e Código
+      action: fetch:template
+      input:
+        url: ./skeleton/app
 
-      targetPath: ${{ parameters.name }}
+        # Exemplo:
+        # gsp/
+        #   configmap.yaml
+        #   deployment.yaml
+        #   service.yaml
+        targetPath: ${{ parameters.name }}
 
-      values:
-        name: ${{ parameters.name }}
-
-
-  # =========================================================
-  # GERA A APPLICATION DO ARGOCD
-  # =========================================================
-
-  - id: fetch-argocd
-    name: Gerando configuração do ArgoCD
-    action: fetch:template
-    input:
-      url: ./skeleton/argocd
-
-      targetPath: argocd/apps/${{ parameters.name }}
-
-      values:
-        name: ${{ parameters.name }}
+        values:
+          name: ${{ parameters.name }}
 
 
-  # =========================================================
-  # CRIA PR COM TUDO
-  # =========================================================
+    # =========================================================
+    # GERA A APPLICATION DO ARGOCD
+    # =========================================================
 
-  - id: pr-gitops
-    name: Criando PR no GitOps
-    action: publish:github:pull-request
-    input:
-      repoUrl: github.com?repo=synthetic-mesh-gitops&owner=rafael-aguiar01
+    - id: fetch-argocd
+      name: Gerando configuração do ArgoCD
+      action: fetch:template
+      input:
+        url: ./skeleton/argocd
 
-      branchName: deploy-${{ parameters.name }}
-      targetBranchName: main
+        # Exemplo:
+        # argocd/apps/gsp/application.yaml
+        targetPath: argocd/apps/${{ parameters.name }}
 
-      title: "deploy: adiciona modulo ${{ parameters.name }}"
-      description: "Deploy automático gerado pelo Backstage"
-
-      update: true
+        values:
+          name: ${{ parameters.name }}
 
 
-  # =========================================================
-  # AUTO MERGE
-  # =========================================================
+    # =========================================================
+    # CRIA PR NO REPOSITÓRIO GITOPS
+    # =========================================================
 
-  - id: merge-pr
-    name: Fazendo merge automático
-    action: github:actions:dispatch
-    input:
-      repoUrl: github.com?repo=synthetic-mesh-gitops&owner=rafael-aguiar01
+    - id: pr-gitops
+      name: Criando PR no GitOps
+      action: publish:github:pull-request
+      input:
+        repoUrl: github.com?repo=synthetic-mesh-gitops&owner=rafael-aguiar01
 
-      workflowId: auto-merge.yml
-      branchOrTagName: main
+        branchName: deploy-${{ parameters.name }}
+        targetBranchName: main
 
-      workflowInputs:
-        pr_number: ${{ steps['pr-gitops'].output.pullRequestNumber | string }}
+        title: "deploy: adiciona modulo ${{ parameters.name }}"
+        description: "Deploy automático gerado pelo Backstage"
+
+        # IMPORTANTE:
+        # Não colocar sourcePath nem targetPath aqui.
+        # Queremos enviar TODO o workspace:
+        #
+        # /gsp
+        # /argocd/apps/gsp
+        #
+        update: true
+
+
+    # =========================================================
+    # DISPARA AUTO MERGE DO PR
+    # =========================================================
+
+    - id: merge-pr
+      name: Fazendo merge automático
+      action: github:actions:dispatch
+      input:
+        repoUrl: github.com?repo=synthetic-mesh-gitops&owner=rafael-aguiar01
+
+        workflowId: auto-merge.yml
+        branchOrTagName: main
+
+        workflowInputs:
+          pr_number: ${{ steps['pr-gitops'].output.pullRequestNumber | string }}
