@@ -62,6 +62,8 @@ data:
         # USUÁRIOS
         - type: url
           target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/users.yaml
+          rules:
+            - allow: [User, Group]
 
         # CONTABILIDADE
         - type: url
@@ -74,3 +76,5 @@ data:
         # SYSTEM
         - type: url
           target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/system.yaml
+  app-config.production.yaml: |
+    {}
