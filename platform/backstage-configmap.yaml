@@ -64,7 +64,7 @@ data:
             - Domain
             - Template
 
-            
+
       locations:
 
         # USUÁRIOS
@@ -86,6 +86,9 @@ data:
           target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/system.yaml
         
         - type: url
-          target: https://githubusercontent.com/rafael-aguiar01/synthetic-mesh-gitops/main/templates/erp-module/template.yaml
+          target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/templates/erp-module/template.yaml
+          rules:
+            - allow: [Template]
+
   app-config.production.yaml: |
     {}
