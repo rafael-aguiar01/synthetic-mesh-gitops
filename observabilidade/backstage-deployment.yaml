@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backstage
+  namespace: observabilidade
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backstage
+  template:
+    metadata:
+      labels:
+        app: backstage
+    spec:
+      containers:
+        - name: backstage
+          image: mesh-registry:5000/backstage-erp:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 7007
+          volumeMounts:
+            - name: app-config
+              mountPath: /app/app-config.yaml
+              subPath: app-config.yaml
+      volumes:
+        - name: app-config
+          configMap:
+            name: backstage-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backstage
+  namespace: observabilidade
+spec:
+  selector:
+    app: backstage
+  ports:
+    - port: 80
+      targetPort: 7007

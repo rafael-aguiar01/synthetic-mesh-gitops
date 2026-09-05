@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backstage-config
+  namespace: observabilidade
+data:
+  app-config.yaml: |
+    app:
+      title: Portal do Desenvolvedor - ERP Municipal
+      baseUrl: http://backstage.localhost
+    backend:
+      baseUrl: http://backstage.localhost
+      listen:
+        port: 7007
+    catalog:
+      locations:
+        - type: url
+          target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/contabilidade/catalog-info.yaml
+        - type: url
+          target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/financas/catalog-info.yaml
+        - type: url
+          target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/system.yaml
