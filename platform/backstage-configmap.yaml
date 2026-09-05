@@ -12,6 +12,9 @@ data:
       baseUrl: http://backstage.localhost
       listen:
         port: 7007
+      database:
+        client: sqlite3
+        connection: ':memory:'
     catalog:
       locations:
         - type: url
