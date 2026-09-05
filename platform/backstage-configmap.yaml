@@ -90,5 +90,10 @@ data:
           rules:
             - allow: [Template]
 
+        - type: url
+          target: https://github.com/rafael-aguiar01/synthetic-mesh-gitops/blob/main/templates/erp-clone/template.yaml
+          rules:
+            - allow: [Template]     
+
   app-config.production.yaml: |
     {}

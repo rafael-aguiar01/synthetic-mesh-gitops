@@ -1,0 +1,34 @@
+apiVersion: scaffolder.backstage.io/v1beta3
+kind: Template
+metadata:
+  name: erp-clone-deployer
+  title: Clone de Módulo ERP (Deploy via ArgoCD)
+  description: Gera o código e K8s manifests e envia ao GitOps
+  tags: [nodejs, argocd]
+spec:
+  owner: squad-arquitetura
+  type: service
+  parameters:
+    - title: Dados do Serviço
+      required: [name]
+      properties:
+        name:
+          title: Nome do Serviço (ex. contabilidade)
+          type: string
+  steps:
+    - id: fetch-base
+      name: Gerando K8s Manifests e Código
+      action: fetch:template
+      input:
+        url: ./skeleton
+        values:
+          name: ${{ parameters.name }}
+          
+    - id: pr-gitops
+      name: Enviando para o ArgoCD (GitOps)
+      action: publish:github:pull-request
+      input:
+        repoUrl: github.com?repo=synthetic-mesh-gitops&owner=rafael-aguiar01
+        branchName: deploy-${{ parameters.name }}
+        title: "deploy: adiciona modulo ${{ parameters.name }}"
+        description: "Manifestos K8s gerados via Backstage"
