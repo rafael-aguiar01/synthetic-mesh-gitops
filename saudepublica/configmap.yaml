@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: saudepublica-code
+  namespace: platform
+data:
+  index.js: |
+    const http = require('http');
+    const port = 7007;
+    const server = http.createServer((req, res) => {
+      console.log("Requisicao recebida no modulo: saudepublica");
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: "UP", module: "saudepublica" }));
+    });
+    server.listen(port, () => {
+      console.log("Servico saudepublica rodando na porta " + port);
+    });
