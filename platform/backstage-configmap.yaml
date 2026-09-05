@@ -12,23 +12,16 @@ data:
 
     backend:
       baseUrl: http://backstage.localhost
-      cors:
-        origin: http://backstage.localhost
 
       listen:
         port: 7007
         host: 0.0.0.0
-    auth:
-      environment: development
-      origin: http://backstage.localhost
-      providers:
-        github:
-          development:
-            clientId: ${AUTH_GITHUB_CLIENT_ID}
-            clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
-            signIn:
-              resolvers:
-                - resolver: usernameMatchingUserEntityName
+
+      cors:
+        origin: http://backstage.localhost
+        methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+        credentials: true
+
       database:
         client: pg
         connection:
@@ -37,6 +30,22 @@ data:
           user: backstage
           password: backstage123
           database: backstage
+
+    auth:
+      environment: development
+
+      experimentalExtraAllowedOrigins:
+        - http://backstage.localhost
+
+      providers:
+        github:
+          development:
+            clientId: ${AUTH_GITHUB_CLIENT_ID}
+            clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+
+            signIn:
+              resolvers:
+                - resolver: usernameMatchingUserEntityName
 
     catalog:
       locations:

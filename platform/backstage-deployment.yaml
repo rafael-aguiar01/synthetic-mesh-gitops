@@ -19,6 +19,9 @@ spec:
     spec:
       enableServiceLinks: false
 
+      # =========================================================
+      # AGUARDA O POSTGRES FICAR DISPONÍVEL
+      # =========================================================
       initContainers:
         - name: wait-for-postgres
           image: postgres:15-alpine
@@ -41,8 +44,71 @@ spec:
             - containerPort: 7007
 
           env:
+
+            # =====================================================
+            # NODE
+            # =====================================================
+
             - name: NODE_ENV
               value: production
+
+
+            # =====================================================
+            # BACKSTAGE - URLS
+            # =====================================================
+
+            # URL pública do frontend
+            - name: APP_CONFIG_app_baseUrl
+              value: "http://backstage.localhost"
+
+            # URL pública do backend
+            - name: APP_CONFIG_backend_baseUrl
+              value: "http://backstage.localhost"
+
+            # Origem permitida pelo CORS
+            - name: APP_CONFIG_backend_cors_origin
+              value: "http://backstage.localhost"
+
+            - name: APP_CONFIG_backend_cors_credentials
+              value: "true"
+
+            - name: APP_CONFIG_backend_cors_methods
+              value: '["GET","HEAD","PATCH","POST","PUT","DELETE"]'
+
+
+            # =====================================================
+            # AUTH
+            # =====================================================
+
+            - name: APP_CONFIG_auth_environment
+              value: "development"
+
+            # Libera explicitamente backstage.localhost
+            # para os fluxos OAuth
+            - name: APP_CONFIG_auth_experimentalExtraAllowedOrigins
+              value: '["http://backstage.localhost"]'
+
+
+            # =====================================================
+            # GITHUB AUTH
+            # =====================================================
+
+            - name: AUTH_GITHUB_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-secret
+                  key: github-client-id
+
+            - name: AUTH_GITHUB_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: backstage-secret
+                  key: github-client-secret
+
+
+            # =====================================================
+            # POSTGRES
+            # =====================================================
 
             - name: POSTGRES_HOST
               value: postgres
@@ -59,7 +125,11 @@ spec:
             - name: POSTGRES_DB
               value: backstage
 
-            # Força a configuração efetiva do Backstage
+
+            # =====================================================
+            # BACKSTAGE DATABASE
+            # =====================================================
+
             - name: APP_CONFIG_backend_database_client
               value: pg
 
@@ -77,27 +147,33 @@ spec:
 
             - name: APP_CONFIG_backend_database_connection_database
               value: backstage
-            - name: AUTH_GITHUB_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: backstage-secret
-                  key: github-client-id
-            - name: AUTH_GITHUB_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: backstage-secret
-                  key: github-client-secret
+
+
+          # =======================================================
+          # CONFIGMAP
+          # =======================================================
+
           volumeMounts:
             - name: app-config
               mountPath: /app/app-config.yaml
               subPath: app-config.yaml
+
+
+      # ===========================================================
+      # VOLUMES
+      # ===========================================================
 
       volumes:
         - name: app-config
           configMap:
             name: backstage-config
 
+
 ---
+
+# ===============================================================
+# SERVICE
+# ===============================================================
 
 apiVersion: v1
 kind: Service
@@ -110,5 +186,7 @@ spec:
     app: backstage
 
   ports:
-    - port: 80
+    - name: http
+      protocol: TCP
+      port: 80
       targetPort: 7007
